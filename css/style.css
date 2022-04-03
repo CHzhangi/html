@@ -1,0 +1,85 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+#game{
+    width: 1200px;
+    height: 800px;
+}
+
+#Begin{
+    width: 100%;
+    height: 100%;
+    background-color: #af2649;
+    background: url('bk.jpg') no-repeat;
+    background-size: 1200px 800px;
+    display: block;
+}
+#HEAD{   
+    font-size: 80px;
+    position: relative;
+    left:440px;
+    top:130px;
+    color: coral;
+    text-decoration: None;
+    font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
+}
+#Begin :hover{
+    color: rgb(255, 127, 133);
+
+}
+.gamestart{
+
+    background:url() no-repeat;
+    background-color: rgb(24, 24, 23);
+    background-size: 50% 50%;
+}
+#gamestart span{
+    width: 100px;
+    height: 40px;
+    display: block;
+    /* 边框样式、颜色、宽度 */
+    border: 3px solid #af2649;
+    /* 给边框添加圆角 */
+    border-radius: 6px;
+    text-align:center;
+    line-height: 32px;
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: 20px;
+    position: absolute;
+    left:550px;
+    cursor: pointer;
+    bottom:400px;
+    /* 字母转大写 */
+    color: rgb(204, 32, 32);
+    
+
+}
+#gamestart span:hover {
+    background-color: #008CBA;
+    color: white;
+
+
+}
+
+#gameenter{
+    width: 100%;
+    height: 100%;
+    background-color: blanchedalmond;
+    position: relative;
+    display: None;
+}
+
+#myplane {
+    width: 80px;
+    height: 100px;
+    position: absolute;
+    left:560px;
+    bottom:0px;
+}
+#myplane img{
+    width:80px;
+    height: 100px;
+
+}
