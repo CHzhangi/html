@@ -1,18 +1,175 @@
+let bulletarray_en=[];//子弹队列
+let bulletarray_me=[];//己方子弹队列
+let planearray=[]; //敌方战机队列
+var score=0;
+var home_hp=10;
 window.onload=function(){
 //获取标签元素
     function $(idname)
     {
         return document.getElementById(idname);
     }
+    function find(classname)
+    {
+        return document.querySelector(classname);
+    }
     //全局变量
-    var game=$("game"), gamebegin = $("Begin"),gamestart=$("gamestart"),gameenter=$("gameenter"),
-    myplane=$("myplane"),bullets=$("bullet"),enemy=$("oppoentplane");
+    var game=$("game"), gamebegin = $("Begin"),gamestart=$("gamestart"),gameenter=find(".gameenter"),
+    myplane=find(".my1plane"),bullets=$("bullet"),enemy=$("oppoentplane"),block= $("block"),hpblock= $("Hpblock"),
+    addition=$("addition"),addition2=find(".score");
     var delta_x=0;//水平方向
     var delta_y=0;//竖直方向
-    var speed=40;//控制move函数出现的速率
+    var fire=0;//是否开火
+    var speed=50;//控制move函数出现的速率
+    var firespeed=150;
     var ifenter=false;//是否成功进入了游戏界面
     var key=[37,38,39,40,65,68,83,87];
+    let mep=new meplane(560,700,0);
+    myplane=find(".my1plane")
+    function changescore()
+    {
+        var fenshu=$("fenshu");
+        console.log(score);
+        fenshu.innerHTML=score;
+    }
+    var auto=setInterval(()=>{
+        changescore();}
+    ,0);
+    var ifin=0;
+    function product(x1,y1,x2,y2,x3,y3)
+    {
+        var x=(x2-x1)*(y3-y1);
+        var y=(y2-y1)*(x3-x1);
+        return (x-y);
+    }
+    function iscollosion(x0,y0,x1,y1,x2,y2,x3,y3)
+    {
+        var x=product(x1,y1,x2,y2,x0,y0);
+        var y=product(x2,y2,x3,y3,x0,y0);
+        var z=product(x3,y3,x1,y1,x0,y0);
+        if(x<0&&y<0&&z<0)
+        {
+            return true;
+        }
+    }
+    var needpop=[];
+    var judge=setInterval(()=>{
+        for(i in bulletarray_en){
+            let item=bulletarray_en[i];
+            let bullet_x=item.bullet.offsetLeft;
+            let bullet_y=item.bullet.offsetTop;
+            let myplane_x=myplane.offsetLeft;
+            let myplane_y=myplane.offsetTop;
+            if(iscollosion(bullet_x+2,bullet_y+10,myplane_x+80,myplane_y+100,myplane_x+40,myplane_y,myplane_x,myplane_y+100))
+            {
+                item.ruin();
+                item.life=0;
+                mep.befired();
+                needpop.push(i);
+            }               
+        }
+        for(var i=needpop.length-1;i>=0;i--)
+        {
 
+            bulletarray_en.splice(i,1);
+        
+        }
+        needpop=[];
+
+    },0);
+
+    var needpop2=[];
+    var judge=setInterval(()=>{
+        for(i in bulletarray_me){
+            let item=bulletarray_me[i];
+            let bullet_x=item.bullet.offsetLeft;
+            let bullet_y=item.bullet.offsetTop;
+            for(j in planearray){//敌方战机数组
+                let plane_x=planearray[j].plane.offsetLeft;
+                let plane_y=planearray[j].plane.offsetTop;
+                if(planearray[j].type==3)
+                {
+                    if(bullet_x+2>=plane_x && bullet_x+2<=(plane_x+planearray[j].width) && bullet_y<(plane_y+planearray[j].height))
+                    {
+                        item.ruin();
+                        planearray[j].befired();
+                        needpop2.push(i);
+                        break;
+                    }
+                }
+                if(planearray[j].type==1 || planearray[j].type==2){
+                if(iscollosion(bullet_x+2,bullet_y,plane_x+planearray[j].width/2,plane_y+planearray[j].height,plane_x+planearray[j].width,plane_y,plane_x,plane_y))
+                {
+                    item.ruin();
+                    item.life=0;
+                    //score+=item.type;
+                    planearray[j].befired();
+                    needpop2.push(i);
+                    break;
+                }
+                }
+            }               
+        }
+        for(var i=needpop2.length-1;i>=0;i--)
+        {
+
+            bulletarray_me.splice(i,1);
+        
+        }
+        
+        needpop2=[];
+
+    },0);
+    var enemyfreq=[1,1,1,1,1,1,2,2,2,2,3,3]
+    var auto_enemy=setInterval(()=>{
+    if(ifenter==1){
+        if(Math.random()>0){
+            var enemytype=enemyfreq[Math.floor(Math.random()*12)];
+            var left=Math.floor(Math.random()*950);
+            var newenemy=new Plane(left,0,enemytype,0);
+        }
+    }
+
+    },3000);
+    var a=setInterval(()=>{
+        planearray=planearray.filter(function(x){
+
+            return x.life>0;
+        });
+        bulletarray_en=bulletarray_en.filter(function(x){
+
+            return x.life>0;
+        });
+        bulletarray_me=bulletarray_me.filter(function(x){
+
+            return x.life>0;
+        });
+
+
+    },10);
+    var a=setInterval(()=>{
+        if(mep.health<=0||home_hp<=0)
+        {
+            //mep.classname+=" my1plane_down1";
+            alert("失败！");
+            clearInterval(a);
+            location.reload();
+        }
+
+
+
+    },150);
+   
+    var hp=setInterval(()=>{
+    document.getElementById("myhp").value=mep.health;
+    document.getElementById("myhp").max=6;
+    document.getElementById("myhp").innerHTML=mep.health+"/"+6;
+    document.getElementById("jidihp").value=home_hp;
+    document.getElementById("jidihp").max=10;
+    document.getElementById("jidihp").innerHTML=home_hp+"/"+10;
+
+    },5);
+    var count=0;
     function getStyle(obj,attr){
         if(obj.currentStyle){
             return obj.currentStyle[attr];
@@ -20,31 +177,18 @@ window.onload=function(){
             return getComputedStyle(obj)[attr];
         }
     }
-
-    class Student {
-        // 构造器：当用户new Student对象的时候：new出来的对象会自动调用的方法
-         constructor(stuNo, stuName, stuGender, stuAge) {
-             // 创建属性：this永远代表对象
-             this.stuNo = stuNo;
-             this.stuName = stuName;
-             this.stuGender = stuGender;
-             this.stuAge = stuAge;
-         }
-         // 其他方法：方法名 + () + {}
-         say() {
-             console.log(this.stuName + '很美');
-         }
-     }
-     let s1 = new Student('001', '希希子', '女', 'secret'); 
-    //调用方法
-    s1.say();
     //登录游戏 按键 press
+    
     gamestart.firstElementChild.onclick=function(){
         gamebegin.style.display="None";
         gameenter.style.display="block";
+        block.style.display="block";
+        hpblock.style.display="block";
+        //addition2.style.display="block";
         ifenter=true;
     }
 
+    //let plane1=new plane(560,700,1);
     //增加监听事件keydown，并记录对应的delta_x和delta_y
     document.addEventListener('keydown',(e)=>{
         if(!ifenter){
@@ -52,6 +196,9 @@ window.onload=function(){
         }
         var ev = e || window.event;
         switch(ev.keyCode){
+            case 74:
+            fire=1;
+            break;
             case 37://左
             delta_x=-1;
             break;
@@ -80,7 +227,7 @@ window.onload=function(){
             break;
         }
     },false);
-    var key
+    var key;
     //增加监听事件keyup,delta_x和delta_y归0
     document.addEventListener('keyup',(e)=>{
         var ev = e || window.event;
@@ -92,8 +239,34 @@ window.onload=function(){
         {
             delta_y=0;
         }
+        if(ev.keyCode==74)
+        {
+            fire=0;
+        }
     },false);
     
+    var timer = window.setInterval(()=>{
+        var unit = 3;
+        var left = window.getComputedStyle(myplane,null).left;
+        var top = window.getComputedStyle(myplane,null).top;
+        left=parseInt(left)+delta_x*unit;
+        top=parseInt(top)+delta_y*unit;
+        //防止越界
+        if(left>=0&&left<=1120){		
+        myplane.style.left=left+'px';
+        }
+        if(top>=0&&top<=700){
+        myplane.style.top=top+'px';
+        }
+    },speed);
+
+    var timer2 = window.setInterval(()=>{
+        if(fire==1&&mep.health>0)
+        {
+            mep.fire();
+            //myplane.className+=" plane";
+        }
+    },firespeed);
     //移动函数 每speed ms自动执行一次
     var timer = window.setInterval(()=>{
         var unit = 10;
@@ -109,54 +282,5 @@ window.onload=function(){
         myplane.style.top=top+'px';
         }
     },speed);
-    /*document.onkeydown=function(e)
-    {
-        if(!ifenter){
-            return false;
-        }
-        var e=e||window.e;
-        var key = (window.Event) ? e.which : e.keyCode;
-        //console.log(keycode);       
-        myplanemove(key);
-        clearInterval(keyTimer);
-        keyTimer = setInterval(function(){
-            myplanemove(key);
-        }, 50)
-        return false;
-    }
-    window.onkeyup = function(e) {
-        if(!ifenter){
-            return false;
-        }
-        var keyCode = e.keyCode;
-        if (keyCode == 37 || keyCode == 38 || keyCode == 39 || keyCode == 40) {
-            clearInterval(keyTimer);
-        }
-    }
-
-    var w_game=getStyle(game,"width");//获取界面大小 宽度 高度 防止飞机溢出去
-    var h_game=getStyle(game,"height");
-    console.log(w_game);
-    var keyTimer = null;
-    function myplanemove(key)
-    {
-        console.log("left:"+myplane.style.left);
-        console.log("top:"+myplane.style.top);
-        switch(key) {
-            case 37://左          
-                myplane.style.left=myplane.offsetLeft-10+'px';
-                break;
-            case 38://上
-                myplane.style.top=myplane.offsetTop-10+'px';
-                break;
-            case 39://右
-                myplane.style.left=myplane.offsetLeft+10+'px';
-                break;
-            case 40://下
-                myplane.style.top=myplane.offsetTop+10+'px';
-                break;
-
-    }
-
-    }*/
+   
 }

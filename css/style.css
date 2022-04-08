@@ -2,9 +2,87 @@
     margin: 0;
     padding: 0;
 }
+#Hpblock{
+    width: 1200px;
+    height: 30px;
+    display: none;
+
+}
+#block{
+    width: 1200px;
+    height: 30px;
+    display: none;
+}
+#block p{
+    padding-left: 0px;
+    font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
+    font-size: 20px;
+    color: coral;
+}
+#hptitle{
+    left:50px;
+    width:110px;
+    height: 25px;
+    font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
+    font-size: 20px;
+    float: left;
+
+}
+#jidihptitle{
+    left:50px;
+    width:110px;
+    height: 25px;
+    font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
+    font-size: 20px;
+    float: right;
+}
+body{
+    width: 1600px;
+    height: 1000px;
+
+}
 #game{
     width: 1200px;
     height: 800px;
+}
+
+.pp1{
+    font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
+    font-size: 30px;
+    position: absolute;
+    top:250px;
+    left:1200px;
+
+
+}
+
+#fenshu {
+    font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
+    font-size: 30px;
+    position: absolute;
+    top:290px;
+    left:1200px;
+
+
+}
+
+.level{
+    font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
+    font-size: 30px;
+    position: absolute;
+    top:350px;
+    left:1200px;
+
+
+}
+#level_n {
+    font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
+    font-size: 30px;
+    position: absolute;
+    top:390px;
+    left:1200px;
+
+
 }
 
 #Begin{
@@ -14,6 +92,17 @@
     background: url('bk.jpg') no-repeat;
     background-size: 1200px 800px;
     display: block;
+}
+#additon{
+    left:1200px;
+    width: 400px;
+    float:right;
+}
+.score{
+    position:absolute;
+    left: 1200px;
+
+
 }
 #HEAD{   
     font-size: 80px;
@@ -47,10 +136,10 @@
     text-decoration: none;
     font-weight: bolder;
     font-size: 20px;
-    position: absolute;
+    position:absolute;
     left:550px;
     cursor: pointer;
-    bottom:400px;
+    top:450px;
     /* 字母转大写 */
     color: rgb(204, 32, 32);
     
@@ -63,10 +152,11 @@
 
 }
 
-#gameenter{
+.gameenter{
     width: 100%;
     height: 100%;
-    background-color: blanchedalmond;
+    background: url(../images/back.jpg);
+    background-size: 1200px 800px;
     position: relative;
     display: None;
 }
@@ -78,8 +168,99 @@
     left:560px;
     bottom:0px;
 }
+.my1plane {
+    width: 80px;
+    height: 100px;
+    position: absolute;
+    left:560px;
+    bottom:500px;
+    background: url(../images/me1.png) no-repeat left top;
+    background-size: 80px 100px;
+}
+
+.my1plane {
+    background: url(../images/me2.png) no-repeat left top;
+    background-size: 80px 100px;
+}
 #myplane img{
     width:80px;
     height: 100px;
 
+}
+.bullet{
+    width: 5px;
+    height: 11px;
+    position:absolute;
+    background: url(../images/bullet1.png);
+}
+.bullet_pro{
+
+    background: url(../images/bullet2.png),linear-gradient(#f00, #c10);
+
+    /* background: url(img/1.jpg),red; */
+    
+    background-blend-mode: lighten;
+}
+.plane{
+    width: 57px;
+    height: 43px;
+    position: absolute;
+    background:url(../images/enemy1.png);
+
+}
+
+.bigplane{
+    width: 69px;
+    height: 99px;
+    position: absolute;
+    background:url(../images/enemy2.png);
+
+
+}
+
+.bossplane{
+    width: 169px;
+    height: 258px;
+    position: absolute;
+    background:url(../images/enemy3_n1.png);
+}
+.enemy1_down1{
+    background:url(../images/enemy1_down1.png);
+}
+.my1plane_down1{
+    background:url(../images/me_destroy_3.png);
+    background-size: 80px 100px;
+}
+.enemy2_down1{
+    background:url(../images/enemy2_down1.png);
+}
+.enemy3_down1{
+    background:url(../images/enemy3_down1.png);
+}
+.enemy1_down2{
+    background:url(../images/enemy1_down1.png);
+}
+.enemy1_down3{
+    background:url(../images/enemy1_down1.png);
+}
+.enemy1_down4{
+    background:url(../images/enemy1_down3.png);
+
+    /* background: url(img/1.jpg),red; */
+    
+    background-blend-mode: lighten;;
+}
+.enemy2_down4{
+    background:url(../images/enemy2_down3.png);
+
+    /* background: url(img/1.jpg),red; */
+    
+    background-blend-mode: lighten;;
+}
+.enemy3_down4{
+    background:url(../images/enemy3_down5.png);
+
+    /* background: url(img/1.jpg),red; */
+    
+    background-blend-mode: lighten;;
 }
