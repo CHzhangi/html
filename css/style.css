@@ -5,19 +5,35 @@
 #Hpblock{
     width: 1200px;
     height: 30px;
-    display: none;
-
+    display: block;
+    clear: both;
 }
 #block{
     width: 1200px;
     height: 30px;
-    display: none;
+    display: block;
+    clear:both;
 }
 #block p{
     padding-left: 0px;
     font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
     font-size: 20px;
     color: coral;
+}
+#bt{
+    background: url('../images/again.png');
+    background-size: 110px 30px;
+    
+}
+
+#ds{
+    
+    position: absolute;
+    width: 80px;
+    height: 30px;
+    top:450px;
+    left:1205px;
+    display: block;
 }
 #hptitle{
     left:50px;
@@ -44,6 +60,7 @@ body{
 #game{
     width: 1200px;
     height: 800px;
+    float:left;
 }
 
 .pp1{
@@ -52,7 +69,7 @@ body{
     position: absolute;
     top:250px;
     left:1200px;
-
+    display: block;
 
 }
 
@@ -62,7 +79,7 @@ body{
     position: absolute;
     top:290px;
     left:1200px;
-
+    display: block;
 
 }
 
@@ -72,7 +89,7 @@ body{
     position: absolute;
     top:350px;
     left:1200px;
-
+    display: block;
 
 }
 #level_n {
@@ -81,7 +98,7 @@ body{
     position: absolute;
     top:390px;
     left:1200px;
-
+    display: block;
 
 }
 
@@ -93,10 +110,11 @@ body{
     background-size: 1200px 800px;
     display: block;
 }
-#additon{
-    left:1200px;
+#addition{
     width: 400px;
+    height: 800px;
     float:right;
+    display: block;
 }
 .score{
     position:absolute;
@@ -158,7 +176,7 @@ body{
     background: url(../images/back.jpg);
     background-size: 1200px 800px;
     position: relative;
-    display: None;
+    display: block;
 }
 
 #myplane {
@@ -201,6 +219,16 @@ body{
     
     background-blend-mode: lighten;
 }
+.bullet_pro2{
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    background: url(../images/bullet_2.png);
+    background-size: 15px 15px;
+
+    /* background: url(img/1.jpg),red; */
+    
+}
 .plane{
     width: 57px;
     height: 43px;
@@ -235,7 +263,7 @@ body{
     background:url(../images/enemy2_down1.png);
 }
 .enemy3_down1{
-    background:url(../images/enemy3_down1.png);
+    background:url(../images/enemy3_down5.png);
 }
 .enemy1_down2{
     background:url(../images/enemy1_down1.png);

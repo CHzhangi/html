@@ -3,6 +3,7 @@ let bulletarray_me=[];//己方子弹队列
 let planearray=[]; //敌方战机队列
 var score=0;
 var home_hp=10;
+var levell=1;
 window.onload=function(){
 //获取标签元素
     function $(idname)
@@ -16,13 +17,13 @@ window.onload=function(){
     //全局变量
     var game=$("game"), gamebegin = $("Begin"),gamestart=$("gamestart"),gameenter=find(".gameenter"),
     myplane=find(".my1plane"),bullets=$("bullet"),enemy=$("oppoentplane"),block= $("block"),hpblock= $("Hpblock"),
-    addition=$("addition"),addition2=find(".score");
+    addition=$("addition"),addition2=find(".score"),pp1=find(".pp1"),fenshu=$("fenshu"),level=find(".level"),level_n=$("level_n");
     var delta_x=0;//水平方向
     var delta_y=0;//竖直方向
     var fire=0;//是否开火
     var speed=50;//控制move函数出现的速率
     var firespeed=150;
-    var ifenter=false;//是否成功进入了游戏界面
+    var ifenter=true;//是否成功进入了游戏界面
     var key=[37,38,39,40,65,68,83,87];
     let mep=new meplane(560,700,0);
     myplane=find(".my1plane")
@@ -31,6 +32,22 @@ window.onload=function(){
         var fenshu=$("fenshu");
         console.log(score);
         fenshu.innerHTML=score;
+        if(levell==1)
+        {
+            level_n.innerHTML="简单";
+        }
+        if(levell==2)
+        {
+            level_n.innerHTML="困难";
+        }
+        if(levell==3)
+        {
+            level_n.innerHTML="地狱";
+        }
+        if(score>=2)
+        {
+            mep.levelup();
+        }
     }
     var auto=setInterval(()=>{
         changescore();}
@@ -120,9 +137,9 @@ window.onload=function(){
         needpop2=[];
 
     },0);
-    var enemyfreq=[1,1,1,1,1,1,2,2,2,2,3,3]
+    var enemyfreq=[1,1,1,1,1,1,2,2,2,2,3,3];
     var auto_enemy=setInterval(()=>{
-    if(ifenter==1){
+    if(levell==1){
         if(Math.random()>0){
             var enemytype=enemyfreq[Math.floor(Math.random()*12)];
             var left=Math.floor(Math.random()*950);
@@ -131,6 +148,27 @@ window.onload=function(){
     }
 
     },3000);
+    var auto_enemy=setInterval(()=>{
+        if(levell==2){
+            if(Math.random()>0){
+                var enemytype=enemyfreq[Math.floor(Math.random()*12)];
+                var left=Math.floor(Math.random()*950);
+                var newenemy=new Plane(left,0,enemytype,0);
+            }
+        }
+    
+    },2000);
+    var enemyfreq3=[1,1,1,3,3,1,3,2,2,2,3,3];
+    var auto_enemy=setInterval(()=>{
+        if(levell==3){
+            if(Math.random()>0){
+                var enemytype=enemyfreq3[Math.floor(Math.random()*12)];
+                var left=Math.floor(Math.random()*950);
+                var newenemy=new Plane(left,0,enemytype,0);
+            }
+        }
+    
+    },1000);
     var a=setInterval(()=>{
         planearray=planearray.filter(function(x){
 
@@ -169,6 +207,18 @@ window.onload=function(){
     document.getElementById("jidihp").innerHTML=home_hp+"/"+10;
 
     },5);
+
+    var hp=setInterval(()=>{
+        if(score>=20&&levell==1)
+        {
+            levell++;
+        }
+        if(score>=40&&levell==2)
+        {
+            levell++;
+        }
+    
+    },5);
     var count=0;
     function getStyle(obj,attr){
         if(obj.currentStyle){
@@ -179,21 +229,22 @@ window.onload=function(){
     }
     //登录游戏 按键 press
     
-    gamestart.firstElementChild.onclick=function(){
-        gamebegin.style.display="None";
-        gameenter.style.display="block";
-        block.style.display="block";
-        hpblock.style.display="block";
-        //addition2.style.display="block";
-        ifenter=true;
-    }
+    // gamestart.firstElementChild.onclick=function(){
+    //     gamebegin.style.display="None";
+    //     gameenter.style.display="block";
+    //     block.style.display="block";
+    //     hpblock.style.display="block";
+    //     addition.style.display="block";
+    //     pp1.style.display="block";
+    //     level.style.display="block";
+    //     level_n.style.display="block";
+    //     fenshu.style.display="block";
+    //     ifenter=true;
+    // }
 
     //let plane1=new plane(560,700,1);
     //增加监听事件keydown，并记录对应的delta_x和delta_y
     document.addEventListener('keydown',(e)=>{
-        if(!ifenter){
-            return false;
-        }
         var ev = e || window.event;
         switch(ev.keyCode){
             case 74:

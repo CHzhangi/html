@@ -18,7 +18,11 @@ class meplane{
     }
     fire()
     {
-        new Bullet(this.meplane.offsetLeft+40,this.meplane.offsetTop,1,this.level);
+        new Bullet(this.meplane.offsetLeft+35,this.meplane.offsetTop,1,this.level);
+    }
+    levelup()
+    {
+        this.level=2;
     }
     befired()
     {
@@ -34,9 +38,4 @@ class meplane{
             document.querySelector('.gameenter').removeChild(this.meplane);
         }
     }
-    levelup()
-    {
-        this.level++;
-    }
-    
 }

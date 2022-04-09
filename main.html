@@ -40,18 +40,10 @@ progress#jidihp::-webkit-progress-value{
 <body>
     <!--准备加上登录 界面 另设div-->
     <div id="game">    
-        <div id="Begin">  
-            <a id="HEAD" href="getting_start.txt" title="戳这里，快速入门！">飞机大战</a>
-
-            <div id="gamestart">
-            <span>开始游戏</span>
-            </div>   
-        </div>
         <div class="gameenter">           
         </div>
     </div>
-    <div id="addition">
-        
+    <div id="addition">     
             <div class="pp1">当前得分为:</div>
             <div  id="fenshu">0</div>
             <div class="level">当前关卡等级:</div>
@@ -66,6 +58,7 @@ progress#jidihp::-webkit-progress-value{
         <progress value="100" max="100" id="myhp"></progress>
         <progress value="100" max="100" id="jidihp"></progress>
         <div id="jidihptitle">基地血量:</div>
+        <button type="button" id="ds" onclick="location.reload();">重新开始</button>
     </div>
 </body>
 </html>

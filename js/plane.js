@@ -30,6 +30,7 @@ class Plane{
         this.plane.style.top = `${y}px`;
         this.sendbullet;
         this.type=type;
+        this.dietype=0;
         document.querySelector('.gameenter').appendChild(this.plane);
         planearray.push(this);
         this.autom=setInterval(() => {
@@ -51,6 +52,7 @@ class Plane{
         {this.plane.style.top=`${top+this.speed}px`;}
         if(top>(800-this.height))
         {
+            this.dietype=1;
             if(this.life>=1)
             {home_hp--;
             }
@@ -86,7 +88,7 @@ class Plane{
     }
     befired()
     {
-        this.life--;
+        this.life-=1;
     if(this.life<=0)
     {
         if(this.type==1)
@@ -116,8 +118,12 @@ class Plane{
     ruin()
     {
         if(this.life<=0)
-        {document.querySelector('.gameenter').removeChild(this.plane);
-        score+=this.type;
+        {
+        document.querySelector('.gameenter').removeChild(this.plane);
+        if(this.dietype==0)
+        {
+            score+=this.type;
+        }
         clearInterval(this.sendbullet);
         clearInterval(this.delplane);
         clearInterval(this.autom);

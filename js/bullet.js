@@ -7,11 +7,22 @@ class Bullet{
         this.bullet.style.left = `${x}px`;
         this.bullet.style.top = `${y}px`;
         this.life=1;
+        this.damage=1;
         if(type==1)
         {
+            if(level==1)
+            {
             this.speed=8;
             bulletarray_me.push(this);
             this.bullet.className+=" bullet_pro";
+            }
+            if(level==2)
+            {
+            this.speed=15;
+            bulletarray_me.push(this);
+            this.bullet.className='bullet_pro2';
+            this.damage=2;
+            }
         }
         if(type==2)
         {
