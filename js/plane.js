@@ -82,13 +82,13 @@ class Plane{
                 return false;
             }
             console.log(this.plane.offsetLeft,this.plane.offsetTop);
-            new Bullet(this.plane.offsetLeft+this.width/2,this.plane.offsetTop+this.height,2,this.level);
+            new Bullet(this.plane.offsetLeft+this.width/2,this.plane.offsetTop+this.height,2,this.type);
         }
         return false;
     }
-    befired()
+    befired(damage)
     {
-        this.life-=1;
+        this.life-=damage;
     if(this.life<=0)
     {
         if(this.type==1)
@@ -104,16 +104,6 @@ class Plane{
             this.plane.className+=" enemy3_down1";
         }
     }
-        // if(this.life<=0)
-        // {
-        //     this.plane.className+=" enemy1_down1";
-        //     var a;
-        //     var b;
-        //     var a=5;
-        //     var b=5;
-        //     //this.ruin();
-        //     //var timeout=setTimeout(function(){this.ruin();},5000);
-        // }
     }
     ruin()
     {

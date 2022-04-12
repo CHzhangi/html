@@ -39,6 +39,10 @@ progress#jidihp::-webkit-progress-value{
 </head>
 <body>
     <!--准备加上登录 界面 另设div-->
+    <audio id="bgm" autoplay="autoplay" utostart="true" controls="controls"loop="loop" preload="auto"
+            	src="video/rtr.mp3">
+      		你的浏览器版本太低，不支持audio标签
+	</audio>
     <div id="game">    
         <div class="gameenter">           
         </div>
@@ -48,6 +52,8 @@ progress#jidihp::-webkit-progress-value{
             <div  id="fenshu">0</div>
             <div class="level">当前关卡等级:</div>
             <div  id="level_n">第一关</div>
+            <div class="planelevel">当前战机等级:</div>
+            <div  id="planelevel_n">⭐</div>
     </div>
 
     <div id="block">

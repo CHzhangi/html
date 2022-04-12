@@ -4,6 +4,7 @@ let planearray=[]; //敌方战机队列
 var score=0;
 var home_hp=10;
 var levell=1;
+var unit = 10;
 window.onload=function(){
 //获取标签元素
     function $(idname)
@@ -14,10 +15,11 @@ window.onload=function(){
     {
         return document.querySelector(classname);
     }
+    var promise=$("bgm");
     //全局变量
     var game=$("game"), gamebegin = $("Begin"),gamestart=$("gamestart"),gameenter=find(".gameenter"),
     myplane=find(".my1plane"),bullets=$("bullet"),enemy=$("oppoentplane"),block= $("block"),hpblock= $("Hpblock"),
-    addition=$("addition"),addition2=find(".score"),pp1=find(".pp1"),fenshu=$("fenshu"),level=find(".level"),level_n=$("level_n");
+    addition=$("addition"),addition2=find(".score"),pp1=find(".pp1"),fenshu=$("fenshu"),level=find(".level"),level_n=$("level_n"),planelevel_n=$("planelevel_n");
     var delta_x=0;//水平方向
     var delta_y=0;//竖直方向
     var fire=0;//是否开火
@@ -27,6 +29,8 @@ window.onload=function(){
     var key=[37,38,39,40,65,68,83,87];
     let mep=new meplane(560,700,0);
     myplane=find(".my1plane")
+
+    //控制右侧的得分，难度面板的显示  
     function changescore()
     {
         var fenshu=$("fenshu");
@@ -42,16 +46,50 @@ window.onload=function(){
         }
         if(levell==3)
         {
+            level_n.innerHTML="噩梦";
+        }
+        if(levell==4)
+        {
             level_n.innerHTML="地狱";
         }
-        if(score>=2)
+        if(score>=15)
         {
             mep.levelup();
         }
+        if(score>=30)
+        {
+            mep.levelup2();
+        }
+        if(score>=50)
+        {
+            mep.levelup3();
+        }
+        if(mep.level==1)
+        {
+            planelevel_n.innerHTML="⭐";
+        }
+        if(mep.level==2)
+        {
+            planelevel_n.innerHTML="⭐⭐";
+            unit=15;
+        }
+        if(mep.level==3)
+        {
+            planelevel_n.innerHTML="⭐⭐⭐";
+            unit=20;
+        }
+        if(mep.level==4)
+        {
+            planelevel_n.innerHTML="⭐⭐⭐⭐⭐";
+            unit=30;
+        }
     }
+    //监听函数，循环调用
     var auto=setInterval(()=>{
         changescore();}
     ,0);
+
+    //碰撞检测
     var ifin=0;
     function product(x1,y1,x2,y2,x3,y3)
     {
@@ -69,6 +107,7 @@ window.onload=function(){
             return true;
         }
     }
+    //敌方战机子弹  与   己方战机  碰撞检测
     var needpop=[];
     var judge=setInterval(()=>{
         for(i in bulletarray_en){
@@ -79,8 +118,9 @@ window.onload=function(){
             let myplane_y=myplane.offsetTop;
             if(iscollosion(bullet_x+2,bullet_y+10,myplane_x+80,myplane_y+100,myplane_x+40,myplane_y,myplane_x,myplane_y+100))
             {
-                item.ruin();
+                //item.ruin();
                 item.life=0;
+                item.bullet.className='bullet_ruin';
                 mep.befired();
                 needpop.push(i);
             }               
@@ -95,6 +135,48 @@ window.onload=function(){
 
     },0);
 
+    //敌方战机子弹  与   己方子弹  碰撞检测
+    var needpop3=[];//己方
+    var needpop4=[];//敌方
+    var judge=setInterval(()=>{
+        for(i in bulletarray_me){
+            let item=bulletarray_me[i];
+            let bulletme_x=item.bullet.offsetLeft;
+            let bulletme_y=item.bullet.offsetTop;
+            for(j in bulletarray_en){//敌方子弹数组
+                let bulleten_x=bulletarray_en[j].bullet.offsetLeft;
+                let bulleten_y=bulletarray_en[j].bullet.offsetTop;
+                if(bulletme_x>=bulleten_x-13 && bulletme_x<=bulleten_x+13 && bulletme_y>=bulleten_y+5 && bulletme_y<=bulleten_y+10)
+                {
+                    item.life=0;
+                    bulletarray_en[j].life=0;
+                    item.bullet.className='bullet_ruin';
+                    bulletarray_en[j].bullet.className='bullet_ruin';
+                    needpop3.push(i);
+                    needpop4.push(j);
+                    break;
+                }
+            }
+        }               
+        
+        for(var i=needpop3.length-1;i>=0;i--)
+        {
+
+            bulletarray_me.splice(i,1);
+        
+        }
+        for(var i=needpop4.length-1;i>=0;i--)
+        {
+
+            bulletarray_en.splice(i,1);
+        
+        }
+        
+        needpop3=[];
+        needpop4=[];
+
+    },0);
+    //己方战机子弹   与   敌方战机   碰撞检测
     var needpop2=[];
     var judge=setInterval(()=>{
         for(i in bulletarray_me){
@@ -104,23 +186,26 @@ window.onload=function(){
             for(j in planearray){//敌方战机数组
                 let plane_x=planearray[j].plane.offsetLeft;
                 let plane_y=planearray[j].plane.offsetTop;
-                if(planearray[j].type==3)
+                if(planearray[j].type==3)//类似长方形的敌方战机
                 {
                     if(bullet_x+2>=plane_x && bullet_x+2<=(plane_x+planearray[j].width) && bullet_y<(plane_y+planearray[j].height))
                     {
-                        item.ruin();
-                        planearray[j].befired();
+                        //item.ruin();
+                        item.life=0;
+                        item.bullet.className='bullet_ruin';
+                        planearray[j].befired(item.damage);
                         needpop2.push(i);
                         break;
                     }
                 }
-                if(planearray[j].type==1 || planearray[j].type==2){
+                if(planearray[j].type==1 || planearray[j].type==2){//类似三角形的敌方战机
                 if(iscollosion(bullet_x+2,bullet_y,plane_x+planearray[j].width/2,plane_y+planearray[j].height,plane_x+planearray[j].width,plane_y,plane_x,plane_y))
                 {
-                    item.ruin();
+                    //item.ruin();
                     item.life=0;
+                    item.bullet.className='bullet_ruin';
                     //score+=item.type;
-                    planearray[j].befired();
+                    planearray[j].befired(item.damage);
                     needpop2.push(i);
                     break;
                 }
@@ -137,6 +222,8 @@ window.onload=function(){
         needpop2=[];
 
     },0);
+
+    //控制生成敌方战机  等级分别为简单，困难，地狱
     var enemyfreq=[1,1,1,1,1,1,2,2,2,2,3,3];
     var auto_enemy=setInterval(()=>{
     if(levell==1){
@@ -168,7 +255,21 @@ window.onload=function(){
             }
         }
     
-    },1000);
+    },300);
+    var enemyfreq3=[1,1,1,1,3,1,3,2,2,2,3,3];
+    var auto_enemy=setInterval(()=>{
+        if(levell==4){
+            if(Math.random()>0){
+                var enemytype=enemyfreq3[Math.floor(Math.random()*12)];
+                var left=Math.floor(Math.random()*950);
+                var newenemy=new Plane(left,0,enemytype,0);
+            }
+        }
+    
+    },150);
+
+
+    //对子弹数列，敌机数列对应的删除
     var a=setInterval(()=>{
         planearray=planearray.filter(function(x){
 
@@ -185,6 +286,8 @@ window.onload=function(){
 
 
     },10);
+
+    //游戏结束监听
     var a=setInterval(()=>{
         if(mep.health<=0||home_hp<=0)
         {
@@ -197,7 +300,9 @@ window.onload=function(){
 
 
     },150);
-   
+
+
+    //己方战机与基地血条显示
     var hp=setInterval(()=>{
     document.getElementById("myhp").value=mep.health;
     document.getElementById("myhp").max=6;
@@ -208,6 +313,7 @@ window.onload=function(){
 
     },5);
 
+    //对应得分提升游戏难度
     var hp=setInterval(()=>{
         if(score>=20&&levell==1)
         {
@@ -217,32 +323,12 @@ window.onload=function(){
         {
             levell++;
         }
+        if(score>=100&&levell==3)
+        {
+            levell++;
+        }
     
     },5);
-    var count=0;
-    function getStyle(obj,attr){
-        if(obj.currentStyle){
-            return obj.currentStyle[attr];
-        }else{
-            return getComputedStyle(obj)[attr];
-        }
-    }
-    //登录游戏 按键 press
-    
-    // gamestart.firstElementChild.onclick=function(){
-    //     gamebegin.style.display="None";
-    //     gameenter.style.display="block";
-    //     block.style.display="block";
-    //     hpblock.style.display="block";
-    //     addition.style.display="block";
-    //     pp1.style.display="block";
-    //     level.style.display="block";
-    //     level_n.style.display="block";
-    //     fenshu.style.display="block";
-    //     ifenter=true;
-    // }
-
-    //let plane1=new plane(560,700,1);
     //增加监听事件keydown，并记录对应的delta_x和delta_y
     document.addEventListener('keydown',(e)=>{
         var ev = e || window.event;
@@ -282,6 +368,7 @@ window.onload=function(){
     //增加监听事件keyup,delta_x和delta_y归0
     document.addEventListener('keyup',(e)=>{
         var ev = e || window.event;
+        promise.play();
         if(ev.keyCode==37||ev.keyCode==65||ev.keyCode==39||ev.keyCode==68)
         {
             delta_x=0;
@@ -295,32 +382,29 @@ window.onload=function(){
             fire=0;
         }
     },false);
-    
-    var timer = window.setInterval(()=>{
-        var unit = 3;
-        var left = window.getComputedStyle(myplane,null).left;
-        var top = window.getComputedStyle(myplane,null).top;
-        left=parseInt(left)+delta_x*unit;
-        top=parseInt(top)+delta_y*unit;
-        //防止越界
-        if(left>=0&&left<=1120){		
-        myplane.style.left=left+'px';
-        }
-        if(top>=0&&top<=700){
-        myplane.style.top=top+'px';
-        }
-    },speed);
 
+    //开火函数
     var timer2 = window.setInterval(()=>{
         if(fire==1&&mep.health>0)
         {
-            mep.fire();
+            if(mep.level==1||mep.level==2)
+            {
+                mep.fire();
+            }
+            if(mep.level==3)
+            {
+                mep.bigfire();
+            }
+            if(mep.level==4)
+            {
+                mep.biggerfire();
+            }
             //myplane.className+=" plane";
         }
     },firespeed);
+
     //移动函数 每speed ms自动执行一次
     var timer = window.setInterval(()=>{
-        var unit = 10;
         var left = window.getComputedStyle(myplane,null).left;
         var top = window.getComputedStyle(myplane,null).top;
         left=parseInt(left)+delta_x*unit;

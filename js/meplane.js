@@ -16,6 +16,20 @@ class meplane{
         }, 500);
         return true;
     }
+    bigfire()
+    {
+        new Bullet(this.meplane.offsetLeft+35,this.meplane.offsetTop,1,this.level);
+        new Bullet(this.meplane.offsetLeft-10,this.meplane.offsetTop+80,1,this.level);
+        new Bullet(this.meplane.offsetLeft+85,this.meplane.offsetTop+80,1,this.level);
+    }
+    biggerfire()
+    {
+        new Bullet(this.meplane.offsetLeft+35,this.meplane.offsetTop,1,this.level);
+        new Bullet(this.meplane.offsetLeft+12,this.meplane.offsetTop+40,1,1);
+        new Bullet(this.meplane.offsetLeft-10,this.meplane.offsetTop+80,1,this.level);
+        new Bullet(this.meplane.offsetLeft+50,this.meplane.offsetTop+40,1,1);
+        new Bullet(this.meplane.offsetLeft+85,this.meplane.offsetTop+80,1,this.level);
+    }
     fire()
     {
         new Bullet(this.meplane.offsetLeft+35,this.meplane.offsetTop,1,this.level);
@@ -23,6 +37,16 @@ class meplane{
     levelup()
     {
         this.level=2;
+    }
+    levelup2()
+    {
+        this.level=3;
+        this.meplane.className='my2plane';
+    }
+    levelup3()
+    {
+        this.level=4;
+        this.meplane.className='my2plane';
     }
     befired()
     {

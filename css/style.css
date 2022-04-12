@@ -31,8 +31,8 @@
     position: absolute;
     width: 80px;
     height: 30px;
-    top:450px;
-    left:1205px;
+    top:550px;
+    left:1203px;
     display: block;
 }
 #hptitle{
@@ -75,14 +75,32 @@ body{
 
 #fenshu {
     font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
-    font-size: 30px;
+    font-size: 20px;
     position: absolute;
     top:290px;
     left:1200px;
     display: block;
 
 }
+.planelevel{
+    font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
+    font-size: 30px;
+    position: absolute;
+    top:450px;
+    left:1200px;
+    display: block;
 
+}
+
+#planelevel_n{
+    font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
+    font-size: 30px;
+    position: absolute;
+    top:490px;
+    left:1200px;
+    display: block;
+
+}
 .level{
     font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
     font-size: 30px;
@@ -94,7 +112,7 @@ body{
 }
 #level_n {
     font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
-    font-size: 30px;
+    font-size: 20px;
     position: absolute;
     top:390px;
     left:1200px;
@@ -195,7 +213,26 @@ body{
     background: url(../images/me1.png) no-repeat left top;
     background-size: 80px 100px;
 }
+.my2plane{
+    width: 80px;
+    height: 100px;
+    position: absolute;
+    left:560px;
+    bottom:500px;
+    background: url(../images/meplane_2.png) no-repeat left top;
+    background-size: 80px 100px;
 
+}
+.my3plane{
+    width: 80px;
+    height: 100px;
+    position: absolute;
+    left:560px;
+    bottom:500px;
+    background: url(../images/meplane_3.png) no-repeat left top;
+    background-size: 80px 100px;
+
+}
 .my1plane {
     background: url(../images/me2.png) no-repeat left top;
     background-size: 80px 100px;
@@ -205,14 +242,31 @@ body{
     height: 100px;
 
 }
+.bullet_ruin{
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    background: url(../images/bomb.png);
+    background-size: 15px 15px;
+}
 .bullet{
     width: 5px;
     height: 11px;
     position:absolute;
     background: url(../images/bullet1.png);
 }
+.bullet_bomb2{
+    width: 20px;
+    height: 30px;
+    position:absolute;
+    background: url(../images/bullet_bomb2.png);
+    background-size: 20px 30px;
+}
 .bullet_pro{
 
+    width: 5px;
+    height: 11px;
+    position:absolute;
     background: url(../images/bullet2.png),linear-gradient(#f00, #c10);
 
     /* background: url(img/1.jpg),red; */

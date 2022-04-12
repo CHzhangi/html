@@ -14,7 +14,7 @@ class Bullet{
             {
             this.speed=8;
             bulletarray_me.push(this);
-            this.bullet.className+=" bullet_pro";
+            this.bullet.className="bullet_pro";
             }
             if(level==2)
             {
@@ -23,9 +23,20 @@ class Bullet{
             this.bullet.className='bullet_pro2';
             this.damage=2;
             }
+            if(level==3||level==4)
+            {
+            this.speed=10;
+            bulletarray_me.push(this);
+            this.bullet.className='bullet_pro2';
+            this.damage=2;
+            }
         }
         if(type==2)
         {
+            if(level==3)
+            {
+                this.bullet.className='bullet_bomb2';
+            }
             this.speed=3;
             bulletarray_en.push(this);
         }
@@ -34,11 +45,15 @@ class Bullet{
         this.a=setInterval(() => {
             this.move();
         }, 15);
+        this.b=setInterval(() => {
+            this.ruin();
+        }, 500);
     }
 
     move()
     {
-        let top = this.bullet.offsetTop;
+        if(this.life>0)
+        {let top = this.bullet.offsetTop;
         if(this.type==2)        
         {
             this.bullet.style.top=`${top+this.speed}px`;
@@ -50,21 +65,25 @@ class Bullet{
         if(top>789)
         {   
             this.life=0;
-            this.ruin();
+            //this.ruin();
         }
         if(top<-10)
         {   
             this.life=0;
-            this.ruin();
+            //this.ruin();
         }
+        if(this.life<=0)
+        {
+            this.bullet.className='bullet_ruin';
+        }
+    }
     }
     ruin()
     {
-        document.querySelector('.gameenter').removeChild(this.bullet);
-        // if(this.type==2)
-        // {bulletarray_en.splice(bulletarray_en.findIndex(item => item == this.bullet), 1);}
-        // if(this.type==1)
-        // {bulletarray_me.splice(bulletarray_me.findIndex(item => item == this.bullet), 1);}
-        clearInterval(this.a);
+        if(this.life<=0){
+            document.querySelector('.gameenter').removeChild(this.bullet);
+            clearInterval(this.a);
+            clearInterval(this.b);
+        }
     }  
 }
